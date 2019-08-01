@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
 import './index.styl'
+import { CSSTransition } from 'react-transition-group'
 // import '../../common/iconfont/iconfont.styl'
 
 export default class Header extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      focused: false
+    }
+  }
   render() {
     return (<div className="header-wrapper">
       <a href="/"></a>
@@ -14,10 +21,20 @@ export default class Header extends Component {
           <i className="iconfont icon-Aa"></i>
         </div>
         <div className="search-wrapper">
-          <div className="nav-search">
-            <input placeholder="搜索"/>
-            <i className="iconfont icon-fangdajing"></i>
-          </div>
+          <CSSTransition
+            in={this.state.focused}
+            timeout={2000}
+            classNames="slide"
+          >
+            <div className={this.state.focused ?  'nav-search focused' : 'nav-search'}>
+              <input
+                placeholder="搜索" 
+                onFocus={this.handleInputFocus.bind(this)}
+                onBlur={this.handleInputBlur.bind(this)}
+              />
+              <i className="iconfont icon-fangdajing"></i>
+            </div>
+          </CSSTransition>
         </div>
       </div>
       <div className="addtion">
@@ -27,5 +44,17 @@ export default class Header extends Component {
         <div className="button reg">注册</div>
       </div>  
     </div>)
+  }
+
+  handleInputFocus() {
+    this.setState({
+      focused: true
+    })
+  }
+
+  handleInputBlur() {
+    this.setState({
+      focused: false
+    })
   }
 }
