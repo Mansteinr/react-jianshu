@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
+import Header from './components/header'
 
-import './style.styl'
 export default class App extends Component{
   render() {
-    return <div>this is app</div>
+    return <Header/>
   }
 }
