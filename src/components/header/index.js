@@ -89,7 +89,8 @@ const Header = (props) => {
 // 将store里面的数据映射到组件中
 const mapStateToProps = (state) => {
   return {
-    focused: state.focused
+    // focused: state.focused
+    focused: state.header.focused
   }
 }
 
