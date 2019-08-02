@@ -1,6 +1,8 @@
-import React from 'react'
+
 import './index.styl'
+import React from 'react'
 import { connect } from 'react-redux'
+import  { actionCreators }  from './store'
 import { CSSTransition } from 'react-transition-group'
 // import '../../common/iconfont/iconfont.styl'
 
@@ -97,15 +99,11 @@ const mapStateToProps = (state) => {
 const mapDispathToProps = (dispatch) => {
   return {
     handleInputFocus() {
-      const action = {
-        type: 'search_focus'
-      }
+      const action = actionCreators.searchFocus()
       dispatch(action)
     },
     handleInputBlur() {
-      const action = {
-        type: 'search_blur'
-      }
+      const action = actionCreators.searchBlur()
       dispatch(action)
     }
   }

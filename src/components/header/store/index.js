@@ -3,5 +3,7 @@
  */
 
  import headerReducer from './reducer'
+ import * as actionTypes from './constants'
+ import  * as actionCreators  from './actionCreators'
 
- export { headerReducer }
+ export { headerReducer,actionCreators, actionTypes  }
