@@ -1,60 +1,113 @@
-import React, { Component } from 'react'
+import React from 'react'
 import './index.styl'
+import { connect } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 // import '../../common/iconfont/iconfont.styl'
 
-export default class Header extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      focused: false
-    }
-  }
-  render() {
-    return (<div className="header-wrapper">
-      <a href="/"></a>
-      <div className="nav">
-        <div className="nav-item left active">首页</div>
-        <div className="nav-item left">下载APP</div>
-        <div className="nav-item right">登陆</div>
-        <div className="nav-item right">
-          <i className="iconfont icon-Aa"></i>
-        </div>
-        <div className="search-wrapper">
-          <CSSTransition
-            in={this.state.focused}
-            timeout={2000}
-            classNames="slide"
-          >
-            <div className={this.state.focused ?  'nav-search focused' : 'nav-search'}>
-              <input
-                placeholder="搜索" 
-                onFocus={this.handleInputFocus.bind(this)}
-                onBlur={this.handleInputBlur.bind(this)}
-              />
-              <i className="iconfont icon-fangdajing"></i>
-            </div>
-          </CSSTransition>
-        </div>
+
+// 改为无状态组件
+const Header = (props) => {
+  return (
+    <div className="header-wrapper">
+    <a href="/"></a>
+    <div className="nav">
+      <div className="nav-item left active">首页</div>
+      <div className="nav-item left">下载APP</div>
+      <div className="nav-item right">登陆</div>
+      <div className="nav-item right">
+        <i className="iconfont icon-Aa"></i>
       </div>
-      <div className="addtion">
-        <div className="button writting">
-        <i className="iconfont icon-qianbi"></i>
-          写文章</div>
-        <div className="button reg">注册</div>
-      </div>  
-    </div>)
-  }
+      <div className="search-wrapper">
+        <CSSTransition
+          in={ props.focused }
+          timeout={2000}
+          classNames="slide"
+        >
+          <div className={ props.focused ?  'nav-search focused' : 'nav-search'}>
+            <input
+              placeholder="搜索" 
+              onFocus={ props.handleInputFocus }
+              onBlur={ props.handleInputBlur }
+            />
+            <i className="iconfont icon-fangdajing"></i>
+          </div>
+        </CSSTransition>
+      </div>
+    </div>
+    <div className="addtion">
+      <div className="button writting">
+      <i className="iconfont icon-qianbi"></i>
+        写文章</div>
+      <div className="button reg">注册</div>
+    </div>  
+  </div>
+  )
+}
 
-  handleInputFocus() {
-    this.setState({
-      focused: true
-    })
-  }
-
-  handleInputBlur() {
-    this.setState({
-      focused: false
-    })
+// class Header extends Component {
+//   constructor(props) {
+//     super(props)
+//   }
+//   render() {
+//     return (
+//   <div className="header-wrapper">
+//   <a href="/"></a>
+//   <div className="nav">
+//     <div className="nav-item left active">首页</div>
+//     <div className="nav-item left">下载APP</div>
+//     <div className="nav-item right">登陆</div>
+//     <div className="nav-item right">
+//       <i className="iconfont icon-Aa"></i>
+//     </div>
+//     <div className="search-wrapper">
+//       <CSSTransition
+//         in={ props.focused }
+//         timeout={2000}
+//         classNames="slide"
+//       >
+//         <div className={ props.focused ?  'nav-search focused' : 'nav-search'}>
+//           <input
+//             placeholder="搜索" 
+//             onFocus={ props.handleInputFocus }
+//             onBlur={ props.handleInputBlur }
+//           />
+//           <i className="iconfont icon-fangdajing"></i>
+//         </div>
+//       </CSSTransition>
+//     </div>
+//   </div>
+//   <div className="addtion">
+//     <div className="button writting">
+//     <i className="iconfont icon-qianbi"></i>
+//       写文章</div>
+//     <div className="button reg">注册</div>
+//   </div>  
+// </div>
+//     )
+//   }
+// }
+// 将store里面的数据映射到组件中
+const mapStateToProps = (state) => {
+  return {
+    focused: state.focused
   }
 }
+
+const mapDispathToProps = (dispatch) => {
+  return {
+    handleInputFocus() {
+      const action = {
+        type: 'search_focus'
+      }
+      dispatch(action)
+    },
+    handleInputBlur() {
+      const action = {
+        type: 'search_blur'
+      }
+      dispatch(action)
+    }
+  }
+}
+// 将header和store中的数据连接起来
+export default connect(mapStateToProps, mapDispathToProps)(Header)
