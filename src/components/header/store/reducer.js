@@ -1,19 +1,32 @@
 import { actionTypes } from './index.js'
+import { fromJS } from 'immutable'
 
-const defaultState = {
+// immutable可以将js对象转为immutable对象
+// immutable对象不可更改 
+
+// const defaultState = {
+//   focused: false
+// }
+
+// js对象immutable化
+const defaultState = fromJS({
   focused: false
-}
+})
 
 export default (state = defaultState, action) => {
   if(action.type === actionTypes.SEARCH_FOCUS) {
-    return {
-      focused: true
-    }
+    // immutable对象设置set方法，会结合之前的immutable对象的值
+    // 和设置的值，返回一个全新的对象
+    return state.set('focused', true) // 设置immutable对象
+    // return { 设置js对象
+    //   focused: true
+    // }
   }
   if(action.type === actionTypes.SEARCH_BLUR) {
-    return {
-      focused: false
-    }
+    return state.set('focused', false) // 设置immutable对象
+    // return {
+    //   focused: false
+    // }
   }
   return state
 }

@@ -11,7 +11,7 @@ import { CSSTransition } from 'react-transition-group'
 const Header = (props) => {
   return (
     <div className="header-wrapper">
-    <a href="/"></a>
+    {/* <a href="/"></a> */}
     <div className="nav">
       <div className="nav-item left active">首页</div>
       <div className="nav-item left">下载APP</div>
@@ -92,7 +92,9 @@ const Header = (props) => {
 const mapStateToProps = (state) => {
   return {
     // focused: state.focused
-    focused: state.header.focused
+    // focused: state.header.focused
+    // 获取immutable对象
+    focused: state.header.get('focused')
   }
 }
 
