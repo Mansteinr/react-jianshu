@@ -6,8 +6,6 @@
  * 
  * 然后在通过combineReducers将各个小的reducer聚合成大的reducer
  * 
- * 
- * 
  */
 
 import { combineReducers } from 'redux'
