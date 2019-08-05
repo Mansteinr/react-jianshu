@@ -10,7 +10,8 @@ import { fromJS } from 'immutable'
 
 // js对象immutable化
 const defaultState = fromJS({
-  focused: false
+  focused: false,
+  list: []
 })
 
 export default (state = defaultState, action) => {
@@ -27,6 +28,9 @@ export default (state = defaultState, action) => {
     // return {
     //   focused: false
     // }
+  }
+  if(action.type === actionTypes.CHANGE_LIST) {
+    return state.set('list', action.data) // 设置immutable对象
   }
   return state
 }

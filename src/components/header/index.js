@@ -7,20 +7,29 @@ import { CSSTransition } from 'react-transition-group'
 
 
 class Header extends Component{
-  getListArea(show) {
-    if(show) {
+  getListArea() {
+    if(this.props.focused) {
       return(
         <div className="search-info">
         <div className="search-info-title">热门搜索
           <span className="search-info-switch">换一批</span>
         </div>
         <div className="search-info-list">
+          {
+            // this.props.list此时是个immutable对象 immutable对象
+            // 也提供map方法
+            this.props.list.map((v) => {
+              return (
+                <a href="/" className="search-item-info" key={v}>{ v }</a>
+              )
+            })
+          }
+          {/* <a href="/" className="search-item-info">教育</a>
           <a href="/" className="search-item-info">教育</a>
           <a href="/" className="search-item-info">教育</a>
           <a href="/" className="search-item-info">教育</a>
           <a href="/" className="search-item-info">教育</a>
-          <a href="/" className="search-item-info">教育</a>
-          <a href="/" className="search-item-info">教育</a>
+          <a href="/" className="search-item-info">教育</a> */}
         </div>
       </div>
       )
@@ -73,8 +82,11 @@ const mapStateToProps = (state) => {
   return {
     // focused: state.focused
     // focused: state.header.focused
-    // 获取immutable对象
-    focused: state.header.get('focused')
+    // 获取immutable对象的两种写法
+    focused: state.header.get('focused'),
+    list: state.header.get('list'),
+    // focused: state.getIn(['header', 'focused']),
+    // list: state.getIn(['header', 'list'])
   }
 }
 
@@ -83,6 +95,7 @@ const mapDispathToProps = (dispatch) => {
     handleInputFocus() {
       const action = actionCreators.searchFocus()
       dispatch(action)
+      dispatch(actionCreators.getList())
     },
     handleInputBlur() {
       const action = actionCreators.searchBlur()
