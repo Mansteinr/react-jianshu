@@ -25,6 +25,9 @@ export default (state = defaultState, action) => {
     default: 
       return state
   }
+
+
+  
   // if(action.type === actionTypes.SEARCH_FOCUS) {
   //   // immutable对象设置set方法，会结合之前的immutable对象的值
   //   // 和设置的值，返回一个全新的对象
