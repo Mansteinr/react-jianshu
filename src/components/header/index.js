@@ -8,7 +8,8 @@ import { CSSTransition } from 'react-transition-group'
 
 class Header extends Component{
   getListArea() {
-    if(this.props.focused) {
+    const { list, focused } =  this.props
+    if(focused) {
       return(
         <div className="search-info">
         <div className="search-info-title">热门搜索
@@ -18,18 +19,12 @@ class Header extends Component{
           {
             // this.props.list此时是个immutable对象 immutable对象
             // 也提供map方法
-            this.props.list.map((v) => {
+            list.map((v) => {
               return (
                 <a href="/" className="search-item-info" key={v}>{ v }</a>
               )
             })
           }
-          {/* <a href="/" className="search-item-info">教育</a>
-          <a href="/" className="search-item-info">教育</a>
-          <a href="/" className="search-item-info">教育</a>
-          <a href="/" className="search-item-info">教育</a>
-          <a href="/" className="search-item-info">教育</a>
-          <a href="/" className="search-item-info">教育</a> */}
         </div>
       </div>
       )
@@ -38,6 +33,7 @@ class Header extends Component{
     }
   }
   render() {
+    const { focused, handleInputFocus, handleInputBlur } = this.props
     return (
       <div className="header-wrapper">
       <a  className="logo" href="/">e</a>
@@ -50,18 +46,18 @@ class Header extends Component{
         </div>
         <div className="search-wrapper">
           <CSSTransition
-            in={ this.props.focused }
+            in={ focused }
             timeout={2000}
             classNames="slide"
           >
-            <div className={ this.props.focused ?  'nav-search focused' : 'nav-search'}>
+            <div className={ focused ?  'nav-search focused' : 'nav-search'}>
               <input
                 placeholder="搜索" 
-                onFocus={ this.props.handleInputFocus }
-                onBlur={ this.props.handleInputBlur }
+                onFocus={ handleInputFocus }
+                onBlur={ handleInputBlur }
               />
               <i className="iconfont icon-fangdajing"></i>
-              { this.getListArea(this.props.focused) }
+              { this.getListArea(focused) }
             </div>
           </CSSTransition>
         </div>

@@ -9,6 +9,11 @@ import axios from 'axios'
 import baseUrl from '../../../common/js/config'
 import { fromJS } from 'immutable'
 
+const changeList = (data) => ({
+  type: actionTypes.CHANGE_LIST,
+  data: fromJS(data)
+ })
+
 export const searchFocus = () => ({
   type: actionTypes.SEARCH_FOCUS
  })
@@ -16,12 +21,7 @@ export const searchFocus = () => ({
  export const searchBlur = () => ({
   type: actionTypes.SEARCH_BLUR
  })
-
- const changeList = (data) => ({
-  type: actionTypes.CHANGE_LIST,
-  data: fromJS(data)
- })
-
+ 
 // 返回一个方法
  export const getList = () => {
   return (dispatch) => {
