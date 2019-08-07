@@ -4,6 +4,11 @@ import Header from './components/header'
 import store from './store'
 import { BrowserRouter, Route } from 'react-router-dom'
 
+
+// 引入组件
+import Home from './components/home'
+import Detail from './components/detail'
+
 export default class App extends Component{
   render() {
     return (
@@ -13,8 +18,8 @@ export default class App extends Component{
           <Header/>
           <BrowserRouter>
           <div>
-            <Route path='/' exact render={ () => <div>home</div> }></Route>
-            <Route path='/detail' exact render={ () => <div>detail</div> }></Route>
+            <Route path='/' exact component={Home}></Route>
+            <Route path='/detail' exact component={Detail}></Route>
           </div>
           </BrowserRouter>
         </div>
