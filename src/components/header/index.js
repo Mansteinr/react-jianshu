@@ -8,25 +8,36 @@ import { CSSTransition } from 'react-transition-group'
 
 class Header extends Component{
   getListArea() {
-    const { list, focused } =  this.props
-    if(focused) {
+    const { 
+      totalPage, list, focused, page, handleOnmuoseEnter, handleOnmuoseLeave, mouseIn, handleChangePage
+    } =  this.props
+    // 将immutable对象转为js对象
+    const jsList = list.toJS()
+    const pageList = []
+    if(jsList.length) {
+      for(let i = (page -1) * 10; i < page * 10; i++) {
+        pageList.push(
+          <a href="/" className="search-item-info" key={ jsList[i] }>{ jsList[i] }</a>
+        )
+      }
+    }
+    if(focused || mouseIn) {
       return(
-        <div className="search-info">
-        <div className="search-info-title">热门搜索
-          <span className="search-info-switch">换一批</span>
+        <div 
+          className="search-info" 
+          onMouseEnter={ handleOnmuoseEnter }
+          onMouseLeave={ handleOnmuoseLeave }
+        >
+          <div className="search-info-title">热门搜索
+            <span className="search-info-switch" onClick={ () => handleChangePage(page, totalPage) }>
+            <i className="iconfont icon-fangdajing"></i>
+              换一批
+            </span>
+          </div>
+          <div className="search-info-list">
+            { pageList }
+          </div>
         </div>
-        <div className="search-info-list">
-          {
-            // this.props.list此时是个immutable对象 immutable对象
-            // 也提供map方法
-            list.map((v) => {
-              return (
-                <a href="/" className="search-item-info" key={v}>{ v }</a>
-              )
-            })
-          }
-        </div>
-      </div>
       )
     } else {
       return ''
@@ -81,6 +92,9 @@ const mapStateToProps = (state) => {
     // 获取immutable对象的两种写法
     focused: state.header.get('focused'),
     list: state.header.get('list'),
+    page: state.header.get('page'),
+    totalPage: state.header.get('totalPage'),
+    mouseIn: state.header.get('mouseIn'),
     // focused: state.getIn(['header', 'focused']),
     // list: state.getIn(['header', 'list'])
   }
@@ -96,6 +110,19 @@ const mapDispathToProps = (dispatch) => {
     handleInputBlur() {
       const action = actionCreators.searchBlur()
       dispatch(action)
+    },
+    handleOnmuoseEnter() {
+      dispatch(actionCreators.mouseEnter())
+    },
+    handleOnmuoseLeave() {
+      dispatch(actionCreators.mouseLeave())
+    },
+    handleChangePage(page, totalPage) {
+      if(page < totalPage) {
+        dispatch(actionCreators.changePage(page + 1))
+      } else {
+        dispatch(actionCreators.changePage(1))
+      }
     }
   }
 }
