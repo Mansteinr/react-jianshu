@@ -30,7 +30,6 @@ class Header extends Component{
         >
           <div className="search-info-title">热门搜索
             <span className="search-info-switch" onClick={ () => handleChangePage(page, totalPage) }>
-            <i className="iconfont icon-fangdajing"></i>
               换一批
             </span>
           </div>
@@ -44,7 +43,7 @@ class Header extends Component{
     }
   }
   render() {
-    const { focused, handleInputFocus, handleInputBlur } = this.props
+    const { focused, handleInputFocus, handleInputBlur, list } = this.props
     return (
       <div className="header-wrapper">
       <a  className="logo" href="/">e</a>
@@ -64,7 +63,7 @@ class Header extends Component{
             <div className={ focused ?  'nav-search focused' : 'nav-search'}>
               <input
                 placeholder="搜索" 
-                onFocus={ handleInputFocus }
+                onFocus={ () => handleInputFocus(list) }
                 onBlur={ handleInputBlur }
               />
               <i className="iconfont icon-fangdajing"></i>
@@ -102,10 +101,10 @@ const mapStateToProps = (state) => {
 
 const mapDispathToProps = (dispatch) => {
   return {
-    handleInputFocus() {
+    handleInputFocus(list) {
+      (list.size === 0) && dispatch(actionCreators.getList())
       const action = actionCreators.searchFocus()
       dispatch(action)
-      dispatch(actionCreators.getList())
     },
     handleInputBlur() {
       const action = actionCreators.searchBlur()
